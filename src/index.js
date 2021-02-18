@@ -7,6 +7,7 @@ import 'semantic-ui-css/semantic.min.css';
 import { createStore, compose, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import userReducer from './store/reducers/user';
+import channelReducer from './store/reducers/channel';
 import reportWebVitals from './reportWebVitals';
 
 
@@ -19,7 +20,8 @@ import { setUser, clearUser } from './store/actions/user';
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const rootReducer = combineReducers({
-  user: userReducer
+  user: userReducer,
+  channel: channelReducer
 })
 
 const store = createStore(rootReducer, composeEnhancers())
