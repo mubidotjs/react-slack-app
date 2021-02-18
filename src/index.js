@@ -14,7 +14,7 @@ import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
 import firebase from './firebase';
 import Spinner from './spinner/spinner';
-import { setUser } from './store/actions/user';
+import { setUser, clearUser } from './store/actions/user';
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
@@ -30,6 +30,9 @@ class Root extends React.Component {
       if (user) {
         this.props.setUser(user);
         this.props.history.push('/');
+      } else {
+        this.props.history.push('/login');
+        this.props.clearUser();
       }
     })
   }
@@ -48,7 +51,7 @@ const mapStateToProps = state => ({
   isLoading: state.user.isLoading,
 })
 
-const RootWithAuth = withRouter(connect(mapStateToProps, { setUser })(Root));
+const RootWithAuth = withRouter(connect(mapStateToProps, { setUser, clearUser })(Root));
 
 
 ReactDOM.render(
