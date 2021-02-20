@@ -12,12 +12,13 @@ class Messages extends Component {
         messagesLoading: true,
         channel: this.props.currentChannel,
         user: this.props.currentUser,
+        progressBar: false,
     }
 
     componentDidMount() {
         const { channel, user } = this.state;
 
-        if ( channel && user ) {
+        if (channel && user) {
             this.addListeners(channel.id);
         }
     }
@@ -43,19 +44,27 @@ class Messages extends Component {
         ))
     )
 
+    isProgressBarVisible = percent => {
+        if (percent > 0) {
+            this.setState({
+                progressBar: true,
+            })
+        }
+    }
+
     render() {
-        const { messagesRef, channel, user, messages } = this.state;
+        const { messagesRef, channel, user, messages, progressBar } = this.state;
         return (
             <>
                 <MessagesHeader />
 
                 <Segment>
-                    <Comment.Group className="messages" >
+                    <Comment.Group className={progressBar ? 'messages__progress' : 'messages'} >
                         {this.displayMessages(messages)}
                     </Comment.Group>
                 </Segment>
 
-                <MessageForm messagesRef={messagesRef} currentChannel={channel} currentUser={user} />
+                <MessageForm messagesRef={messagesRef} currentChannel={channel} currentUser={user} isProgressBarVisible={this.isProgressBarVisible} />
             </>
         )
     }
